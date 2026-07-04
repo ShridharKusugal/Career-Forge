@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext(null);
+// Automatically send cookies (if any) and set the live backend URL
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'https://career-forge-4hhd.onrender.com';
 
-// Configure axios base url to simplify api requests
-axios.defaults.baseURL = 'http://localhost:8080';
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
