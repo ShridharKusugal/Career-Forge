@@ -5,7 +5,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8080'
-    : 'https://career-forge-1.onrender.com';
+    : 'https://career-forge-4hhd.onrender.com';
 
 const AuthContext = createContext(null);
 
