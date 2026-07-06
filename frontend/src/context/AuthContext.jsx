@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 
-// Automatically send cookies (if any) and set the live backend URL
+// Automatically send cookies (if any) and set the backend URL adaptively
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'https://career-forge-4hhd.onrender.com';
+axios.defaults.baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8080'
+    : 'https://career-forge-1.onrender.com';
 
 const AuthContext = createContext(null);
 
@@ -36,10 +38,13 @@ export const AuthProvider = ({ children }) => {
     const login = async (usernameOrEmail, password) => {
         const res = await axios.post('/api/auth/login', { usernameOrEmail, password });
         const data = res.data;
-        localStorage.setItem('token', data.token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
-        setUser(data);
-        return data;
+        if (data && data.token) {
+            localStorage.setItem('token', data.token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+            setUser(data);
+            return { success: true, token: data.token };
+        }
+        return { success: false, message: data?.message || 'Login failed' };
     };
 
     const register = async (username, email, password, role) => {
