@@ -73,7 +73,12 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid username, email, or password!");
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails userDetails = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPasswordHash(),
+                        java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                );
         String token = jwtUtils.generateToken(userDetails, user.getRole());
 
         return ResponseEntity.ok(new AuthResponse(
@@ -140,7 +145,12 @@ public class AuthController {
             user = userRepository.save(user);
         }
         
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails userDetails = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPasswordHash(),
+                        java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole()))
+                );
         String token = jwtUtils.generateToken(userDetails, user.getRole());
         
         return ResponseEntity.ok(new AuthResponse(
