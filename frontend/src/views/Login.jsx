@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 import {
   KeyRound,
   Mail,
+  Eye,
+  EyeOff,
   Loader2,
   ArrowRight,
   Sparkles,
@@ -33,15 +35,19 @@ import Footer from "../components/Footer";
 import axios from "axios";
 
 const Login = () => {
-  const { login, setUser } = useAuth();
+  const { login, setUser, enterDemoMode } = useAuth();
   const { darkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [focused, setFocused] = useState("");
+
+  const returnUrl = location.state?.from && location.state.from !== '/login' && location.state.from !== '/register' ? location.state.from : '/';
 
   const handleSocialLogin = async (provider) => {
     setError("");
@@ -58,7 +64,7 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       setUser(data);
-      navigate("/");
+      navigate(returnUrl);
     } catch (err) {
       setError(err.response?.data || `Failed to sign in with ${provider}.`);
     } finally {
@@ -252,7 +258,7 @@ const Login = () => {
     try {
       const result = await login(usernameOrEmail, password);
       if (result.success) {
-        navigate("/");
+        navigate(returnUrl);
       } else {
         setError(result.message || "Invalid credentials. Please try again.");
       }
@@ -483,15 +489,23 @@ const Login = () => {
                       <KeyRound size={16} />
                     </span>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       onFocus={() => setFocused("pass")}
                       onBlur={() => setFocused("")}
                       placeholder="Enter password"
-                      className="w-full bg-slate-100/50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+                      className="w-full bg-slate-100/50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                      title={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
                   </div>
                 </div>
 
@@ -521,6 +535,7 @@ const Login = () => {
                   Don't have an account?{" "}
                   <Link
                     to="/register"
+                    state={location.state}
                     className="text-sky-550 dark:text-sky-400 font-bold hover:text-sky-655 dark:hover:text-sky-305 transition-colors"
                   >
                     Create free account →
@@ -529,39 +544,49 @@ const Login = () => {
               </div>
 
               {/* Demo credentials hint */}
-              <div className="mt-4 bg-slate-100/50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/30 rounded-xl p-3 text-center">
-                <div className="text-[10px] text-slate-500 dark:text-slate-550 font-semibold flex flex-wrap justify-center gap-x-2 gap-y-1">
-                  <span className="text-slate-650 dark:text-slate-400">
-                    Demo Logins:
+              <div className="mt-4 bg-slate-100/50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/30 rounded-xl p-3.5 text-center shadow-sm">
+                <div className="text-[10px] text-slate-500 dark:text-slate-550 font-semibold flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mb-3">
+                  <span className="text-slate-650 dark:text-slate-400 font-bold">
+                    Demo Logins (Click to fill):
                   </span>
-                  <span>
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      student
-                    </span>{" "}
-                    /{" "}
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      password123
-                    </span>
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => { setUsernameOrEmail("student"); setPassword("password123"); }}
+                    className="text-sky-600 dark:text-sky-400 font-black hover:underline transition-colors"
+                  >
+                    student / password123
+                  </button>
                   <span className="text-slate-300 dark:text-slate-700">•</span>
-                  <span>
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      mentor
-                    </span>{" "}
-                    /{" "}
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      password123
-                    </span>
-                  </span>
+                  <button
+                    type="button"
+                    onClick={() => { setUsernameOrEmail("mentor"); setPassword("password123"); }}
+                    className="text-sky-600 dark:text-sky-400 font-black hover:underline transition-colors"
+                  >
+                    mentor / password123
+                  </button>
                   <span className="text-slate-300 dark:text-slate-700">•</span>
-                  <span>
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      admin
-                    </span>{" "}
-                    /{" "}
-                    <span className="text-slate-800 dark:text-slate-305 font-black">
-                      admin123
-                    </span>
+                  <button
+                    type="button"
+                    onClick={() => { setUsernameOrEmail("admin"); setPassword("admin123"); }}
+                    className="text-sky-600 dark:text-sky-400 font-black hover:underline transition-colors"
+                  >
+                    admin / admin123
+                  </button>
+                </div>
+
+                <div className="pt-2.5 border-t border-slate-200/60 dark:border-slate-700/40 flex flex-col items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      enterDemoMode();
+                      navigate(returnUrl);
+                    }}
+                    className="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-400 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm group"
+                  >
+                    <span className="group-hover:scale-110 transition-transform">🚀</span> Just Browsing? Explore Website in Demo Mode
+                  </button>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
+                    No account needed. You'll only be prompted to sign in when using interactive features.
                   </span>
                 </div>
               </div>

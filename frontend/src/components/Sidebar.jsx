@@ -112,18 +112,35 @@ const Sidebar = () => {
             {/* User card footer */}
             {user && (
                 <div className="p-3 border-t border-primary-100/50 dark:border-primary-900/30">
-                    <NavLink to="/profile" className="block">
-                        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary-50 dark:bg-primary-950/20 border border-primary-100 dark:border-primary-900/40 hover:bg-primary-100/60 dark:hover:bg-primary-950/40 transition-colors cursor-pointer">
-                            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-primary-500/20">
-                                {user.username?.[0]?.toUpperCase() || 'U'}
+                    {user.isDemo ? (
+                        <div 
+                            onClick={() => {
+                                window.location.href = '/login';
+                            }}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 transition-colors cursor-pointer group"
+                        >
+                            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-amber-500/20 group-hover:scale-105 transition-transform">
+                                🚀
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{user.username}</p>
-                                <p className="text-[10px] font-black text-primary-500 uppercase tracking-wider">{user.role}</p>
+                                <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">Demo Visitor</p>
+                                <p className="text-[10px] font-black text-amber-500 uppercase tracking-wider">Click to Sign In</p>
                             </div>
-                            <Trophy size={13} className="text-amber-500 shrink-0" />
                         </div>
-                    </NavLink>
+                    ) : (
+                        <NavLink to="/profile" className="block">
+                            <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary-50 dark:bg-primary-950/20 border border-primary-100 dark:border-primary-900/40 hover:bg-primary-100/60 dark:hover:bg-primary-950/40 transition-colors cursor-pointer">
+                                <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-primary-500/20">
+                                    {user.username?.[0]?.toUpperCase() || 'U'}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{user.username}</p>
+                                    <p className="text-[10px] font-black text-primary-500 uppercase tracking-wider">{user.role}</p>
+                                </div>
+                                <Trophy size={13} className="text-amber-500 shrink-0" />
+                            </div>
+                        </NavLink>
+                    )}
                     <p className="text-center text-[9px] text-slate-300 dark:text-slate-700 mt-2 font-medium">CareerForge v3.0 · Made in India 🇮🇳</p>
                 </div>
             )}

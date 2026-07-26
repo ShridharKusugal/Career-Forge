@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { 
     KeyRound, Mail, User as UserIcon, Loader2, ArrowRight, Sparkles, Shield, Zap, 
-    BookOpen, Code2, Bot, Building2, Link2, FileText, X, CheckCircle2,
+    BookOpen, Code2, Bot, Building2, Link2, FileText, X, CheckCircle2, Eye, EyeOff,
     Clock, Layers, MapPin, Calendar, TrendingUp, Users, CheckCircle,
     Sun, Moon
 } from 'lucide-react';
@@ -13,18 +13,22 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 
 const Register = () => {
-    const { register, setUser } = useAuth();
+    const { register, setUser, enterDemoMode } = useAuth();
     const { darkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [role, setRole] = useState('STUDENT');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
     const [focused, setFocused] = useState('');
+
+    const returnUrl = location.state?.from && location.state.from !== '/login' && location.state.from !== '/register' ? location.state.from : '/';
 
     const handleSocialLogin = async (provider) => {
         setError('');
@@ -44,7 +48,7 @@ const Register = () => {
             setUser(data);
             setSuccess(`Signed up and logged in with ${provider} successfully!`);
             setTimeout(() => {
-                navigate('/');
+                navigate(returnUrl);
             }, 1000);
         } catch (err) {
             setError(err.response?.data || `Failed to register with ${provider}.`);
@@ -193,7 +197,7 @@ const Register = () => {
             await register(username, email, password, role);
             setSuccess('Registration successful! Redirecting to login...');
             setTimeout(() => {
-                navigate('/login');
+                navigate('/login', { state: location.state });
             }, 1500);
         } catch (err) {
             setError(err.response?.data || 'Failed to register. Please try again.');
@@ -414,15 +418,23 @@ const Register = () => {
                                             <KeyRound size={16} />
                                         </span>
                                         <input
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
                                             required
                                             value={password}
                                             onChange={e => setPassword(e.target.value)}
                                             onFocus={() => setFocused('pass')}
                                             onBlur={() => setFocused('')}
                                             placeholder="Create strong password"
-                                            className="w-full bg-slate-100/50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl py-2.5 pl-11 pr-4 text-sm text-slate-905 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+                                            className="w-full bg-slate-100/50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60 rounded-xl py-2.5 pl-11 pr-11 text-sm text-slate-905 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
                                         />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                                            title={showPassword ? "Hide password" : "Show password"}
+                                        >
+                                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                        </button>
                                     </div>
                                 </div>
 
@@ -461,11 +473,27 @@ const Register = () => {
                              <div className="mt-5 pt-5 border-t border-slate-200 dark:border-slate-800 text-center">
                                 <p className="text-slate-500 text-sm font-semibold">
                                     Already have an account?{' '}
-                                    <Link to="/login" className="text-sky-550 dark:text-sky-400 font-bold hover:text-sky-655 dark:hover:text-sky-305 transition-colors">
+                                    <Link to="/login" state={location.state} className="text-sky-550 dark:text-sky-400 font-bold hover:text-sky-655 dark:hover:text-sky-305 transition-colors">
                                         Log in here →
                                     </Link>
                                 </p>
-                            </div>
+                             </div>
+
+                             <div className="mt-4 pt-4 border-t border-slate-200/60 dark:border-slate-800/60 flex flex-col items-center gap-1.5">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        enterDemoMode();
+                                        navigate(returnUrl);
+                                    }}
+                                    className="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-400 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm group"
+                                >
+                                    <span className="group-hover:scale-110 transition-transform">🚀</span> Just Browsing? Explore Website in Demo Mode
+                                </button>
+                                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
+                                    No account needed. You'll only be prompted to sign in when using interactive features.
+                                </span>
+                             </div>
                         </div>
                     </motion.div>
                 </div>

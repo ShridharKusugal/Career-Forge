@@ -171,36 +171,53 @@ const Navbar = () => {
 
                     {/* User info */}
                     {user && (
-                        <div className="flex items-center gap-3 pl-3 border-l border-primary-200/40 dark:border-primary-900/40">
-                            <div className="hidden sm:flex flex-col text-right">
-                                <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{user.username}</span>
-                                <span className="text-[10px] font-black text-primary-500 uppercase tracking-wider">{user.role}</span>
-                            </div>
-                            <button
-                                onClick={() => navigate('/profile')}
-                                className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-primary-500/20 hover:scale-105 transition-transform"
-                                title="View Profile"
-                            >
-                                {user.username?.[0]?.toUpperCase() || <UserCircle size={18} />}
-                            </button>
-                            {user.role === 'ADMIN' && (
+                        user.isDemo ? (
+                            <div className="flex items-center gap-2.5 pl-3 border-l border-primary-200/40 dark:border-primary-900/40">
+                                <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-[11px] font-black uppercase tracking-wider">
+                                    🚀 Demo Mode
+                                </span>
                                 <button
-                                    onClick={() => navigate('/admin')}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-500 dark:text-rose-400 hover:bg-rose-500/20 transition-colors text-[11px] font-black uppercase tracking-wider"
-                                    title="Open Admin Console"
+                                    onClick={() => {
+                                        logout();
+                                        navigate('/login', { state: { from: window.location.pathname } });
+                                    }}
+                                    className="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white rounded-xl px-3.5 py-1.5 text-xs font-bold shadow-md shadow-sky-500/20 transition-all flex items-center gap-1.5"
                                 >
-                                    <ShieldCheck size={13} />
-                                    Admin
+                                    Sign In / Register
                                 </button>
-                            )}
-                            <button
-                                onClick={logout}
-                                className="rounded-xl p-2 text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 hover:text-rose-600 transition-colors"
-                                title="Log Out"
-                            >
-                                <LogOut size={18} />
-                            </button>
-                        </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-3 pl-3 border-l border-primary-200/40 dark:border-primary-900/40">
+                                <div className="hidden sm:flex flex-col text-right">
+                                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{user.username}</span>
+                                    <span className="text-[10px] font-black text-primary-500 uppercase tracking-wider">{user.role}</span>
+                                </div>
+                                <button
+                                    onClick={() => navigate('/profile')}
+                                    className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-primary-500/20 hover:scale-105 transition-transform"
+                                    title="View Profile"
+                                >
+                                    {user.username?.[0]?.toUpperCase() || <UserCircle size={18} />}
+                                </button>
+                                {user.role === 'ADMIN' && (
+                                    <button
+                                        onClick={() => navigate('/admin')}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-500 dark:text-rose-400 hover:bg-rose-500/20 transition-colors text-[11px] font-black uppercase tracking-wider"
+                                        title="Open Admin Console"
+                                    >
+                                        <ShieldCheck size={13} />
+                                        Admin
+                                    </button>
+                                )}
+                                <button
+                                    onClick={logout}
+                                    className="rounded-xl p-2 text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/20 hover:text-rose-600 transition-colors"
+                                    title="Log Out"
+                                >
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        )
                     )}
                 </div>
             </div>

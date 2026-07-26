@@ -60,8 +60,18 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const enterDemoMode = () => {
+        const demoUser = {
+            username: 'Demo Visitor',
+            email: 'demo@careerforge.com',
+            role: 'DEMO',
+            isDemo: true
+        };
+        setUser(demoUser);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, setUser }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, setUser, enterDemoMode }}>
             {children}
         </AuthContext.Provider>
     );
