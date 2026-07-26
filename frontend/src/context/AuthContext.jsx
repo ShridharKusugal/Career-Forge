@@ -5,7 +5,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:8080'
-    : 'https://career-forge-4hhd.onrender.com';
+    : 'https://career-forge-1.onrender.com';
 
 const AuthContext = createContext(null);
 
@@ -14,6 +14,9 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Always fire a background pre-warm ping to wake up sleeping Render free-tier instances immediately on app load
+        axios.get('/api/auth/verify').catch(() => {});
+
         const token = localStorage.getItem('token');
         if (token) {
             // Set token in header for the verification call
