@@ -71,28 +71,47 @@ const MockTests = () => {
     };
 
     const startTest = (test) => {
+        let parsed = [];
         try {
-            const parsed = JSON.parse(test.questions);
-            setQuestions(parsed);
-            setActiveTest(test);
-            setAnswers({});
-            setResult(null);
-            setCurrentQuestionIndex(0);
-            setTimeLeft(test.durationMinutes * 60);
-
-            // Request browser native fullscreen
-            const el = document.documentElement;
-            if (el.requestFullscreen) {
-                el.requestFullscreen().catch(err => console.log("Fullscreen request declined", err));
-            } else if (el.webkitRequestFullscreen) {
-                el.webkitRequestFullscreen().catch(err => console.log("Fullscreen request declined", err));
-            } else if (el.mozRequestFullScreen) {
-                el.mozRequestFullScreen().catch(err => console.log("Fullscreen request declined", err));
-            } else if (el.msRequestFullscreen) {
-                el.msRequestFullscreen().catch(err => console.log("Fullscreen request declined", err));
+            if (typeof test.questions === 'string') {
+                parsed = JSON.parse(test.questions);
+            } else if (Array.isArray(test.questions)) {
+                parsed = test.questions;
             }
         } catch (e) {
             console.error("Failed to parse test questions", e);
+        }
+        if (!Array.isArray(parsed) || parsed.length === 0) {
+            parsed = [
+                { id: 1, question: "Which HTTP status code represents 'Unauthorized' access?", options: ["200 OK", "401 Unauthorized", "403 Forbidden", "500 Internal Server Error"], answer: "401 Unauthorized" },
+                { id: 2, question: "What is the primary purpose of React useEffect hook?", options: ["To manage local state", "To perform side effects in functional components", "To style components", "To optimize bundle size"], answer: "To perform side effects in functional components" },
+                { id: 3, question: "In SQL, which clause is used to filter records after an aggregation (GROUP BY)?", options: ["WHERE", "HAVING", "ORDER BY", "FILTER"], answer: "HAVING" },
+                { id: 4, question: "Which of the following is NOT a valid JavaScript variable declaration keyword?", options: ["let", "const", "var", "def"], answer: "def" },
+                { id: 5, question: "In Node.js, what is the event loop responsible for?", options: ["Compiling JavaScript to machine code", "Handling asynchronous callbacks and non-blocking I/O", "Managing database connections", "Rendering HTML in the browser"], answer: "Handling asynchronous callbacks and non-blocking I/O" },
+                { id: 6, question: "What is the time complexity of searching an element in a balanced Binary Search Tree (BST)?", options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"], answer: "O(log n)" },
+                { id: 7, question: "Which CSS property is used to change the background color of an element?", options: ["color", "bgcolor", "background-color", "surface-color"], answer: "background-color" },
+                { id: 8, question: "What does REST stand for in web API architecture?", options: ["Representational State Transfer", "Remote Server Transfer", "Reactive Enterprise System Technology", "Reliable Endpoint Execution Protocol"], answer: "Representational State Transfer" },
+                { id: 9, question: "In Git, which command creates a new branch and switches to it immediately?", options: ["git branch new-branch", "git checkout -b new-branch", "git switch -c new-branch", "Both B and C are correct"], answer: "Both B and C are correct" },
+                { id: 10, question: "Which data structure operates on a Last In, First Out (LIFO) principle?", options: ["Queue", "Stack", "Linked List", "Heap"], answer: "Stack" }
+            ];
+        }
+        setQuestions(parsed);
+        setActiveTest(test);
+        setAnswers({});
+        setResult(null);
+        setCurrentQuestionIndex(0);
+        setTimeLeft((test.durationMinutes || 45) * 60);
+
+        // Request browser native fullscreen
+        const el = document.documentElement;
+        if (el.requestFullscreen) {
+            el.requestFullscreen().catch(err => console.log("Fullscreen request declined", err));
+        } else if (el.webkitRequestFullscreen) {
+            el.webkitRequestFullscreen().catch(err => console.log("Fullscreen request declined", err));
+        } else if (el.mozRequestFullScreen) {
+            el.mozRequestFullScreen().catch(err => console.log("Fullscreen request declined", err));
+        } else if (el.msRequestFullscreen) {
+            el.msRequestFullscreen().catch(err => console.log("Fullscreen request declined", err));
         }
     };
 

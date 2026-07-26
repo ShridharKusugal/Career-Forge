@@ -95,7 +95,8 @@ const Footer = () => {
                         <p className="text-gray-300 leading-relaxed font-semibold text-[11px]">
                             CareerForge Technologies Private Limited,<br />
                             Hubli, 580024,<br />
-                            Karnataka, India
+                            Karnataka, India<br />
+                            Mobile: <a href="tel:8317470034" className="text-amber-400 hover:underline font-bold">8317470034</a>
                         </p>
                     </div>
 
@@ -127,7 +128,7 @@ const Footer = () => {
                         Hubli, 580024,<br />
                         Karnataka, India<br />
                         CIN : U51109KA2012PTC066107<br />
-                        Telephone: <a href="tel:044-45614700" className="text-blue-400 hover:underline">044-45614700</a> / <a href="tel:044-67415800" className="text-blue-400 hover:underline">044-67415800</a>
+                        Mobile: <a href="tel:8317470034" className="text-amber-400 hover:underline font-bold">8317470034</a> / <a href="tel:044-67415800" className="text-blue-400 hover:underline">044-67415800</a>
                     </p>
                 </div>
 
