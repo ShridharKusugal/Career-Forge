@@ -446,58 +446,58 @@ const Companies = () => {
             {/* Header section with Stats Overview */}
             <div className="flex flex-col gap-4">
                 <div>
-                    <h1 className="text-4xl font-black bg-gradient-to-r from-slate-900 via-primary-600 to-indigo-500 dark:from-white dark:via-primary-400 dark:to-indigo-300 bg-clip-text text-transparent tracking-tight">Hiring Intelligence</h1>
-                    <p className="text-slate-500 dark:text-slate-300 mt-2 font-medium text-sm">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-slate-900 via-primary-600 to-indigo-500 dark:from-white dark:via-primary-400 dark:to-indigo-300 bg-clip-text text-transparent tracking-tight">Hiring Intelligence</h1>
+                    <p className="text-slate-500 dark:text-slate-300 mt-1 sm:mt-2 font-medium text-xs sm:text-sm">
                         Discover top recruiters, active vacancy analytics, interview patterns, and apply on official portals.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-                    <div className="glass-card p-4 flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-primary-500/10 text-primary-500">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-2">
+                    <div className="glass-card p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+                        <div className="p-2 sm:p-2.5 rounded-xl bg-primary-500/10 text-primary-500 shrink-0">
                             <Building2 size={18} />
                         </div>
-                        <div>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block">Recruiters</span>
-                            <span className="text-sm font-black text-slate-800 dark:text-white">{stats.totalRecruiters} Partners</span>
+                        <div className="min-w-0">
+                            <span className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block truncate">Recruiters</span>
+                            <span className="text-xs sm:text-sm font-black text-slate-800 dark:text-white truncate block">{stats.totalRecruiters} Partners</span>
                         </div>
                     </div>
-                    <div className="glass-card p-4 flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500">
+                    <div className="glass-card p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+                        <div className="p-2 sm:p-2.5 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0">
                             <Briefcase size={18} />
                         </div>
-                        <div>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block">Job Posts</span>
-                            <span className="text-sm font-black text-slate-800 dark:text-white">
+                        <div className="min-w-0">
+                            <span className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block truncate">Job Posts</span>
+                            <span className="text-xs sm:text-sm font-black text-slate-800 dark:text-white truncate block">
                                 {stats.activeJobs} Active
                             </span>
                         </div>
                     </div>
-                    <div className="glass-card p-4 flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-sky-500/10 text-sky-500">
+                    <div className="glass-card p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+                        <div className="p-2 sm:p-2.5 rounded-xl bg-sky-500/10 text-sky-500 shrink-0">
                             <Users size={18} />
                         </div>
-                        <div>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block">Applicants</span>
-                            <span className="text-sm font-black text-slate-800 dark:text-white">
+                        <div className="min-w-0">
+                            <span className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block truncate">Applicants</span>
+                            <span className="text-xs sm:text-sm font-black text-slate-800 dark:text-white truncate block">
                                 {stats.applicantsCount.toLocaleString()}
                             </span>
                         </div>
                     </div>
-                    <div className="glass-card p-4 flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-500">
+                    <div className="glass-card p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+                        <div className="p-2 sm:p-2.5 rounded-xl bg-amber-500/10 text-amber-500 shrink-0">
                             <TrendingUp size={18} />
                         </div>
-                        <div>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block">Avg Package</span>
-                            <span className="text-sm font-black text-slate-800 dark:text-white">{stats.averagePackage}</span>
+                        <div className="min-w-0">
+                            <span className="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-300 font-extrabold uppercase block truncate">Avg Package</span>
+                            <span className="text-xs sm:text-sm font-black text-slate-800 dark:text-white truncate block">{stats.averagePackage}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Filter and Search Bar */}
-            <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between bg-slate-50 dark:bg-slate-900/30 p-4 rounded-3xl border border-slate-200/50 dark:border-slate-800/50">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center justify-between bg-slate-50 dark:bg-slate-900/30 p-3 sm:p-4 rounded-3xl border border-slate-200/50 dark:border-slate-800/50">
                 {/* Search */}
                 <div className="relative flex-1">
                     <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 dark:text-slate-300">
@@ -513,7 +513,7 @@ const Companies = () => {
                 </div>
 
                 {/* Sort dropdown */}
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-between sm:justify-end gap-2.5 shrink-0">
                     <span className="text-xs font-black text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                         <ArrowUpDown size={14} /> Sort By
                     </span>

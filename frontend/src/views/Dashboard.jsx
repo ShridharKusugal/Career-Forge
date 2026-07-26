@@ -46,21 +46,21 @@ const StatCard = ({ icon: Icon, label, value, suffix = '', color, trend, delay }
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay }}
             whileHover={{ y: -4, scale: 1.02 }}
-            className={`glass-card p-6 flex items-center justify-between border ${c.border}`}
+            className={`glass-card p-4 sm:p-6 flex items-center justify-between gap-3 border ${c.border}`}
         >
-            <div>
-                <span className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-1">{label}</span>
+            <div className="min-w-0">
+                <span className="text-slate-400 text-[10px] sm:text-xs font-bold uppercase tracking-wider block mb-1 truncate">{label}</span>
                 <div className="flex items-end gap-1">
-                    <h2 className="text-3xl font-black text-slate-800 dark:text-white">{animated}{suffix}</h2>
+                    <h2 className="text-xl sm:text-3xl font-black text-slate-800 dark:text-white truncate">{animated}{suffix}</h2>
                 </div>
                 {trend && (
-                    <span className={`text-[11px] font-semibold flex items-center gap-1 mt-1.5 ${c.icon}`}>
-                        <ChevronUp size={12} /> {trend}
+                    <span className={`text-[10px] sm:text-[11px] font-semibold flex items-center gap-1 mt-1 sm:mt-1.5 ${c.icon} truncate`}>
+                        <ChevronUp size={12} className="shrink-0" /> {trend}
                     </span>
                 )}
             </div>
-            <div className={`h-12 w-12 rounded-2xl ${c.bg} ${c.icon} flex items-center justify-center`}>
-                <Icon size={24} />
+            <div className={`h-10 sm:h-12 w-10 sm:w-12 rounded-2xl ${c.bg} ${c.icon} flex items-center justify-center shrink-0`}>
+                <Icon size={22} className="sm:w-6 sm:h-6" />
             </div>
         </motion.div>
     );
@@ -312,16 +312,16 @@ const Dashboard = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
             >
-                <h1 className="text-4xl font-black bg-gradient-to-r from-primary-600 via-accent-500 to-primary-500 dark:from-primary-400 dark:via-accent-300 dark:to-primary-300 bg-clip-text text-transparent tracking-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black bg-gradient-to-r from-primary-600 via-accent-500 to-primary-500 dark:from-primary-400 dark:via-accent-300 dark:to-primary-300 bg-clip-text text-transparent tracking-tight">
                     Career Dashboard
                 </h1>
-                <p className="text-slate-500 dark:text-slate-400 mt-1.5 font-medium">
+                <p className="text-slate-500 dark:text-slate-400 mt-1 sm:mt-1.5 font-medium text-xs sm:text-sm">
                     Your real-time preparation metrics, skill proficiency, and AI-powered study plan.
                 </p>
             </motion.div>
 
             {/* KPI Cards */}
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 sm:gap-5 grid-cols-2 lg:grid-cols-4">
                 <StatCard icon={Award}   label="Readiness Score" value={readiness}       suffix="%" color="violet"  trend="+12% this week"    delay={0.05} />
                 <StatCard icon={BookOpen} label="Courses Done"   value={coursesCompleted} suffix=""  color="emerald" trend="Active progress"    delay={0.10} />
                 <StatCard icon={Code2}   label="Coding Solved"   value={codingCompleted}  suffix=""  color="cyan"    trend="Practice sandbox"   delay={0.15} />

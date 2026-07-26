@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { Sun, Moon, Bell, LogOut, UserCircle, Check, Zap, ShieldCheck, Palette } from 'lucide-react';
+import { Sun, Moon, Bell, LogOut, UserCircle, Check, Zap, ShieldCheck, Palette, Menu } from 'lucide-react';
 import axios from 'axios';
 
-const Navbar = () => {
+const Navbar = ({ onOpenMobileMenu }) => {
     const { user, logout } = useAuth();
     const { darkMode, toggleTheme, themeName, setThemeName } = useTheme();
     const navigate = useNavigate();
@@ -42,17 +42,29 @@ const Navbar = () => {
 
     return (
         <header className="sticky top-0 z-40 w-full border-b border-primary-200/30 dark:border-primary-900/30 bg-white/85 dark:bg-[#080B14]/90 backdrop-blur-md">
-            <div className="flex h-16 items-center justify-between px-6">
-                {/* Brand */}
-                <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-                    <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-500 flex items-center justify-center text-white font-black text-base shadow-lg shadow-primary-500/30">
-                        CF
-                    </div>
-                    <div className="leading-none">
-                        <span className="font-black text-xl tracking-tight bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent">
-                            CareerForge
-                        </span>
-                        <p className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Career Platform</p>
+            <div className="flex h-16 items-center justify-between px-3 sm:px-6">
+                {/* Hamburger & Brand */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                    {/* Mobile Hamburger Menu Button */}
+                    <button
+                        onClick={onOpenMobileMenu}
+                        className="lg:hidden p-2 -ml-1 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors shrink-0"
+                        aria-label="Open navigation menu"
+                    >
+                        <Menu size={22} />
+                    </button>
+
+                    {/* Brand */}
+                    <div className="flex items-center gap-2 sm:gap-3 cursor-pointer" onClick={() => navigate('/')}>
+                        <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-500 flex items-center justify-center text-white font-black text-base shadow-lg shadow-primary-500/30 shrink-0">
+                            CF
+                        </div>
+                        <div className="leading-none min-w-0">
+                            <span className="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent truncate block">
+                                CareerForge
+                            </span>
+                            <p className="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest truncate hidden sm:block">Career Platform</p>
+                        </div>
                     </div>
                 </div>
 
@@ -181,13 +193,14 @@ const Navbar = () => {
                                         logout();
                                         navigate('/login', { state: { from: window.location.pathname } });
                                     }}
-                                    className="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white rounded-xl px-3.5 py-1.5 text-xs font-bold shadow-md shadow-sky-500/20 transition-all flex items-center gap-1.5"
+                                    className="bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white rounded-xl px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-bold shadow-md shadow-sky-500/20 transition-all flex items-center gap-1.5 shrink-0"
                                 >
-                                    Sign In / Register
+                                    <span className="hidden sm:inline">Sign In / Register</span>
+                                    <span className="sm:hidden">Sign In</span>
                                 </button>
                             </div>
                         ) : (
-                            <div className="flex items-center gap-3 pl-3 border-l border-primary-200/40 dark:border-primary-900/40">
+                            <div className="flex items-center gap-2 sm:gap-3 pl-2 sm:pl-3 border-l border-primary-200/40 dark:border-primary-900/40">
                                 <div className="hidden sm:flex flex-col text-right">
                                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200">{user.username}</span>
                                     <span className="text-[10px] font-black text-primary-500 uppercase tracking-wider">{user.role}</span>

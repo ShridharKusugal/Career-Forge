@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
     LayoutDashboard, Building2, Link2, BookOpen, 
     FileQuestion, Code2, FileText, Bot, ShieldCheck,
-    Sparkles, Trophy, ChevronRight, UserCircle
+    Sparkles, Trophy, ChevronRight, UserCircle, X
 } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileMenuOpen, onClose }) => {
     const { user } = useAuth();
     const location = useLocation();
 
@@ -41,17 +41,26 @@ const Sidebar = () => {
         slate:  'bg-slate-500/10 text-slate-600 dark:text-slate-400',
     };
 
-    return (
-        <aside className="w-64 border-r border-primary-200/30 dark:border-primary-900/30 bg-white dark:bg-[#080B14] flex flex-col h-[calc(100vh-4rem)] sticky top-16 shadow-sm">
-            {/* Brand tagline */}
-            <div className="px-4 pt-5 pb-3">
-                <div className="flex items-center gap-2 bg-gradient-to-r from-primary-500/8 to-accent-500/8 border border-primary-500/15 dark:border-primary-800/30 rounded-2xl px-3.5 py-2.5">
+    const SidebarContent = ({ onNavLinkClick, isMobile = false }) => (
+        <div className="flex flex-col h-full bg-white dark:bg-[#080B14]">
+            {/* Brand tagline & Mobile close button */}
+            <div className="px-4 pt-5 pb-3 flex items-center justify-between">
+                <div className="flex items-center gap-2 bg-gradient-to-r from-primary-500/8 to-accent-500/8 border border-primary-500/15 dark:border-primary-800/30 rounded-2xl px-3.5 py-2.5 flex-1 mr-2">
                     <Sparkles size={14} className="text-primary-500 shrink-0" />
-                    <div>
-                        <p className="text-[10px] font-black text-primary-600 dark:text-primary-400 uppercase tracking-widest">AI-Powered</p>
-                        <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300">Career Ecosystem v3.0</p>
+                    <div className="min-w-0">
+                        <p className="text-[10px] font-black text-primary-600 dark:text-primary-400 uppercase tracking-widest truncate">AI-Powered</p>
+                        <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 truncate">Career Ecosystem v3.0</p>
                     </div>
                 </div>
+                {isMobile && (
+                    <button
+                        onClick={onClose}
+                        className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors shrink-0"
+                        aria-label="Close navigation menu"
+                    >
+                        <X size={18} />
+                    </button>
+                )}
             </div>
 
             {/* Navigation */}
@@ -67,10 +76,13 @@ const Sidebar = () => {
                             key={item.path}
                             initial={{ opacity: 0, x: -12 }}
                             animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: idx * 0.04, duration: 0.3 }}
+                            transition={{ delay: idx * 0.03, duration: 0.25 }}
                         >
                             <NavLink
                                 to={item.path}
+                                onClick={() => {
+                                    if (onNavLinkClick) onNavLinkClick();
+                                }}
                                 className={({ isActive: active }) =>
                                     `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group relative ${
                                         active
@@ -111,7 +123,7 @@ const Sidebar = () => {
 
             {/* User card footer */}
             {user && (
-                <div className="p-3 border-t border-primary-100/50 dark:border-primary-900/30">
+                <div className="p-3 border-t border-primary-100/50 dark:border-primary-900/30 shrink-0">
                     {user.isDemo ? (
                         <div 
                             onClick={() => {
@@ -128,7 +140,7 @@ const Sidebar = () => {
                             </div>
                         </div>
                     ) : (
-                        <NavLink to="/profile" className="block">
+                        <NavLink to="/profile" onClick={() => { if (onNavLinkClick) onNavLinkClick(); }} className="block">
                             <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary-50 dark:bg-primary-950/20 border border-primary-100 dark:border-primary-900/40 hover:bg-primary-100/60 dark:hover:bg-primary-950/40 transition-colors cursor-pointer">
                                 <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center text-white text-xs font-black shrink-0 shadow-sm shadow-primary-500/20">
                                     {user.username?.[0]?.toUpperCase() || 'U'}
@@ -144,7 +156,44 @@ const Sidebar = () => {
                     <p className="text-center text-[9px] text-slate-300 dark:text-slate-700 mt-2 font-medium">CareerForge v3.0 · Made in India 🇮🇳</p>
                 </div>
             )}
-        </aside>
+        </div>
+    );
+
+    return (
+        <>
+            {/* Desktop Sidebar (hidden on screens smaller than lg/1024px) */}
+            <aside className="hidden lg:flex w-64 border-r border-primary-200/30 dark:border-primary-900/30 bg-white dark:bg-[#080B14] flex-col h-[calc(100vh-4rem)] sticky top-16 shadow-sm shrink-0 z-20">
+                <SidebarContent isMobile={false} />
+            </aside>
+
+            {/* Mobile Slide-over Drawer (visible only on screens smaller than lg/1024px when menu is open) */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <div className="lg:hidden fixed inset-0 z-50 flex">
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            onClick={onClose}
+                            className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm"
+                        />
+
+                        {/* Drawer content */}
+                        <motion.aside
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '-100%' }}
+                            transition={{ type: 'spring', damping: 28, stiffness: 220 }}
+                            className="relative w-72 max-w-[85vw] bg-white dark:bg-[#080B14] h-full shadow-2xl flex flex-col z-10 border-r border-primary-200/30 dark:border-primary-900/30"
+                        >
+                            <SidebarContent onNavLinkClick={onClose} isMobile={true} />
+                        </motion.aside>
+                    </div>
+                )}
+            </AnimatePresence>
+        </>
     );
 };
 
