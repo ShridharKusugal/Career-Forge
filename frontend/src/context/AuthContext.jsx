@@ -10,26 +10,254 @@ axios.defaults.timeout = 12000; // 12s timeout to prevent infinite loading spinn
 
 // Comprehensive fallback data for seamless Demo Mode & offline / cold-start resilience
 const getFallbackDataForUrl = (url = '') => {
-    if (url.includes('/api/companies') && !url.includes('/prep')) {
+    if ((url.includes('/companies') || url.includes('/api/public/companies')) && !url.includes('/prep')) {
         return [
-            { id: 1, name: 'Google', logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg', industry: 'Technology', foundedYear: 1998, headquarters: 'Mountain View, CA', employeeCount: '180,000+', jobPostsCount: 45, totalApplicants: 28500, salaryPackage: '18 - 38 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'Software Engineer, AI Researcher, Product Manager', companyDescription: 'Alphabet subsidiary specializing in Internet services, cloud computing, AI, and consumer electronics.' },
-            { id: 2, name: 'TCS', logoUrl: '', industry: 'IT Services', foundedYear: 1968, headquarters: 'Mumbai, India', employeeCount: '600,000+', jobPostsCount: 120, totalApplicants: 95000, salaryPackage: '4.5 - 9 LPA', experienceLevel: 'Fresher', hiringRoles: 'Assistant System Engineer, Digital Officer', companyDescription: 'India\'s largest IT services company and a global leader in consulting, technology, and digital solutions.' },
-            { id: 3, name: 'Microsoft', logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoft/microsoft-original.svg', industry: 'Technology', foundedYear: 1975, headquarters: 'Redmond, WA', employeeCount: '220,000+', jobPostsCount: 55, totalApplicants: 42000, salaryPackage: '16 - 35 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'SDE I, Cloud Architect, Data Scientist', companyDescription: 'Global technology leader in software, cloud services, gaming, and enterprise solutions.' },
-            { id: 4, name: 'Accenture', logoUrl: '', industry: 'IT Consulting', foundedYear: 1989, headquarters: 'Dublin, Ireland', employeeCount: '740,000+', jobPostsCount: 80, totalApplicants: 65000, salaryPackage: '5.5 - 12 LPA', experienceLevel: 'Fresher', hiringRoles: 'Associate Software Engineer, Analyst', companyDescription: 'Global professional services and consulting firm specializing in IT strategy and digital transformation.' },
-            { id: 5, name: 'Infosys', logoUrl: '', industry: 'IT Services', foundedYear: 1981, headquarters: 'Bangalore, India', employeeCount: '340,000+', jobPostsCount: 90, totalApplicants: 72000, salaryPackage: '4.5 - 8.5 LPA', experienceLevel: 'Fresher', hiringRoles: 'System Engineer, Specialist Programmer', companyDescription: 'Global digital services and consulting company with AI-powered solutions.' },
-            { id: 6, name: 'Amazon', logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazon/amazon-original-wordmark.svg', industry: 'E-Commerce/Cloud', foundedYear: 1994, headquarters: 'Seattle, WA', employeeCount: '1,500,000+', jobPostsCount: 60, totalApplicants: 52000, salaryPackage: '18 - 40 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'SDE I, SDE II, AWS Support Engineer', companyDescription: 'E-commerce and cloud computing giant, world leader in AWS cloud services.' },
-            { id: 7, name: 'Apple', logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg', industry: 'Consumer Electronics', foundedYear: 1976, headquarters: 'Cupertino, CA', employeeCount: '160,000+', jobPostsCount: 30, totalApplicants: 22000, salaryPackage: '20 - 42 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'iOS Developer, Hardware Engineer, Machine Learning Engineer', companyDescription: 'Consumer electronics, software, and services company known for iPhone, Mac, and iOS.' },
-            { id: 8, name: 'Meta', logoUrl: '', industry: 'Social Media', foundedYear: 2004, headquarters: 'Menlo Park, CA', employeeCount: '67,000+', jobPostsCount: 25, totalApplicants: 18000, salaryPackage: '22 - 45 LPA', experienceLevel: 'Experienced', hiringRoles: 'Frontend Engineer, VR Engineer, Data Engineer', companyDescription: 'Social technology company building products for virtual and augmented reality.' },
-            { id: 9, name: 'Netflix', logoUrl: '', industry: 'Entertainment', foundedYear: 1997, headquarters: 'Los Gatos, CA', employeeCount: '13,000+', jobPostsCount: 15, totalApplicants: 12000, salaryPackage: '25 - 50 LPA', experienceLevel: 'Experienced', hiringRoles: 'Senior Software Engineer, Core UI Developer', companyDescription: 'Entertainment streaming platform and production company.' },
-            { id: 10, name: 'Salesforce', logoUrl: '', industry: 'Cloud/SaaS', foundedYear: 1999, headquarters: 'San Francisco, CA', employeeCount: '79,000+', jobPostsCount: 35, totalApplicants: 25000, salaryPackage: '14 - 28 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'MTS Software Engineer, Cloud Consultant', companyDescription: 'Cloud CRM platform and enterprise software leader.' },
-            { id: 11, name: 'Adobe', logoUrl: '', industry: 'Software', foundedYear: 1982, headquarters: 'San Jose, CA', employeeCount: '29,000+', jobPostsCount: 28, totalApplicants: 20000, salaryPackage: '15 - 30 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'Software Development Engineer, UI/UX Technologist', companyDescription: 'Software company specializing in creative tools, digital media, and document solutions.' },
-            { id: 12, name: 'Wipro', logoUrl: '', industry: 'IT Services', foundedYear: 1945, headquarters: 'Bangalore, India', employeeCount: '250,000+', jobPostsCount: 85, totalApplicants: 68000, salaryPackage: '4 - 8 LPA', experienceLevel: 'Fresher', hiringRoles: 'Project Engineer, Elite Candidate', companyDescription: 'IT services and business process outsourcing company.' }
+            {
+                id: 1,
+                name: 'Google',
+                logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+                industry: 'Technology',
+                foundedYear: 1998,
+                headquarters: 'Mountain View, CA',
+                employeeCount: '180,000+',
+                jobPostsCount: 45,
+                totalApplicants: 28500,
+                salaryPackage: '18 - 38 LPA',
+                experienceLevel: 'Fresher / Exp',
+                hiringRoles: 'Software Engineer, AI Researcher, Product Manager, Cloud Architect',
+                requiredSkills: 'Java, Python, C++, Go, Distributed Systems, Machine Learning, Kubernetes, React',
+                eligibility: 'B.Tech / B.E / M.Tech / MS in CS/IT or equivalent (70%+ or 7.0 CGPA)',
+                hiringRounds: 'Online Assessment -> Technical Interview 1 (DSA) -> Technical Interview 2 (System Design) -> Googley HR Round',
+                jobLocation: 'Bangalore, Hyderabad, Remote',
+                applicationLink: 'https://careers.google.com',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'High demand for AI/ML engineers, Cloud infrastructure specialists, and Full Stack React developers.',
+                companyDescription: 'Alphabet subsidiary specializing in Internet services, cloud computing, AI, and consumer electronics.'
+            },
+            {
+                id: 2,
+                name: 'TCS',
+                logoUrl: '',
+                industry: 'IT Services',
+                foundedYear: 1968,
+                headquarters: 'Mumbai, India',
+                employeeCount: '600,000+',
+                jobPostsCount: 120,
+                totalApplicants: 95000,
+                salaryPackage: '4.5 - 9 LPA',
+                experienceLevel: 'Fresher',
+                hiringRoles: 'Assistant System Engineer, Digital Officer, Systems Analyst',
+                requiredSkills: 'Java, Python, SQL, C++, Spring Boot, HTML/CSS, Git, Agile',
+                eligibility: 'B.Tech / B.E / M.Tech / MCA in any discipline (60%+ across academics)',
+                hiringRounds: 'TCS NQT Assessment -> Technical Interview -> Managerial & HR Interview',
+                jobLocation: 'Bangalore, Mumbai, Pune, Chennai, Hyderabad, Delhi NCR',
+                applicationLink: 'https://www.tcs.com/careers',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Aggressive campus and off-campus recruitment for Digital and Ninja profiles with focus on Cloud & AI.',
+                companyDescription: 'India\'s largest IT services company and a global leader in consulting, technology, and digital solutions.'
+            },
+            {
+                id: 3,
+                name: 'Microsoft',
+                logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoft/microsoft-original.svg',
+                industry: 'Technology',
+                foundedYear: 1975,
+                headquarters: 'Redmond, WA',
+                employeeCount: '220,000+',
+                jobPostsCount: 55,
+                totalApplicants: 42000,
+                salaryPackage: '16 - 35 LPA',
+                experienceLevel: 'Fresher / Exp',
+                hiringRoles: 'SDE I, Cloud Architect, Data Scientist, Product Manager',
+                requiredSkills: 'C#, C++, Java, Azure, TypeScript, React, System Design, Algorithms',
+                eligibility: 'B.Tech / B.E / M.Tech in CS/IT/ECE (70%+ or 7.0 CGPA)',
+                hiringRounds: 'Online Assessment -> Technical Interview 1 -> Technical Interview 2 -> AA Round (HR/Managerial)',
+                jobLocation: 'Hyderabad, Bangalore, Noida, Remote',
+                applicationLink: 'https://careers.microsoft.com',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Expanding Azure cloud teams and Generative AI (Copilot) enterprise development divisions.',
+                companyDescription: 'Global technology leader in software, cloud services, gaming, and enterprise solutions.'
+            },
+            {
+                id: 4,
+                name: 'Accenture',
+                logoUrl: '',
+                industry: 'IT Consulting',
+                foundedYear: 1989,
+                headquarters: 'Dublin, Ireland',
+                employeeCount: '740,000+',
+                jobPostsCount: 80,
+                totalApplicants: 65000,
+                salaryPackage: '5.5 - 12 LPA',
+                experienceLevel: 'Fresher',
+                hiringRoles: 'Associate Software Engineer, Advanced ASE, Strategy Analyst',
+                requiredSkills: 'Java, Spring Boot, React, SQL, Cloud Fundamentals, DevOps, Agile',
+                eligibility: 'B.Tech / B.E / M.Tech / MCA across all engineering branches (65%+)',
+                hiringRounds: 'Cognitive & Technical Assessment -> Coding Assessment -> Communication Test -> HR Interview',
+                jobLocation: 'Bangalore, Hyderabad, Pune, Mumbai, Gurgaon, Chennai',
+                applicationLink: 'https://www.accenture.com/in-en/careers',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Heavy focus on full-stack modernization, cybersecurity, and enterprise cloud migration consulting.',
+                companyDescription: 'Global professional services and consulting firm specializing in IT strategy and digital transformation.'
+            },
+            {
+                id: 5,
+                name: 'Infosys',
+                logoUrl: '',
+                industry: 'IT Services',
+                foundedYear: 1981,
+                headquarters: 'Bangalore, India',
+                employeeCount: '340,000+',
+                jobPostsCount: 90,
+                totalApplicants: 72000,
+                salaryPackage: '4.5 - 8.5 LPA',
+                experienceLevel: 'Fresher',
+                hiringRoles: 'System Engineer, Specialist Programmer, Digital Specialist Engineer',
+                requiredSkills: 'Python, Java, DSA, DBMS, Web Development, Microservices, Angular/React',
+                eligibility: 'B.Tech / B.E / M.Tech / MCA (65%+ or 6.5 CGPA with no active backlogs)',
+                hiringRounds: 'Infosys Online Assessment -> Technical Interview -> HR Round',
+                jobLocation: 'Bangalore, Pune, Mysore, Hyderabad, Chennai, Chandigarh',
+                applicationLink: 'https://www.infosys.com/careers',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'High intake for Specialist Programmer (SP) roles with competitive compensation for top coding talent.',
+                companyDescription: 'Global digital services and consulting company with AI-powered solutions and automation.'
+            },
+            {
+                id: 6,
+                name: 'Amazon',
+                logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazon/amazon-original-wordmark.svg',
+                industry: 'E-Commerce/Cloud',
+                foundedYear: 1994,
+                headquarters: 'Seattle, WA',
+                employeeCount: '1,500,000+',
+                jobPostsCount: 60,
+                totalApplicants: 52000,
+                salaryPackage: '18 - 40 LPA',
+                experienceLevel: 'Fresher / Exp',
+                hiringRoles: 'SDE I, SDE II, AWS Support Engineer, Data Engineer, DevOps Specialist',
+                requiredSkills: 'Java, C++, Python, Data Structures, Algorithms, AWS, Linux, System Design',
+                eligibility: 'B.Tech / B.E / M.Tech in CS/IT/ECE or related fields (70%+ or 7.0 CGPA)',
+                hiringRounds: 'Online Assessment (DSA & Leadership Principles) -> 3 Technical Rounds -> Bar Raiser Round',
+                jobLocation: 'Bangalore, Hyderabad, Chennai, Delhi NCR',
+                applicationLink: 'https://www.amazon.jobs',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Strong demand for AWS cloud infrastructure engineers and e-commerce supply chain optimization teams.',
+                companyDescription: 'E-commerce and cloud computing giant, world leader in AWS cloud services and artificial intelligence.'
+            },
+            {
+                id: 7,
+                name: 'Apple',
+                logoUrl: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg',
+                industry: 'Consumer Electronics',
+                foundedYear: 1976,
+                headquarters: 'Cupertino, CA',
+                employeeCount: '160,000+',
+                jobPostsCount: 30, totalApplicants: 22000, salaryPackage: '20 - 42 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'iOS Developer, Hardware Engineer, Machine Learning Engineer, Systems Software Engineer',
+                requiredSkills: 'Swift, Objective-C, C++, Python, CoreML, OS Internals, Embedded Systems, Graphics Programming',
+                eligibility: 'B.Tech / B.E / M.Tech in CS/ECE/EE with outstanding academic track record (75%+)',
+                hiringRounds: 'Technical Assessment -> Technical Screen -> 4 to 5 On-site/Virtual Technical Interviews -> Team Match',
+                jobLocation: 'Hyderabad, Bangalore, Remote',
+                applicationLink: 'https://www.apple.com/careers/in',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Investing heavily in on-device AI/ML capabilities, custom Apple Silicon driver optimization, and iOS ecosystems.',
+                companyDescription: 'Consumer electronics, software, and services company known for iPhone, Mac, Apple Watch, and iOS.'
+            },
+            {
+                id: 8,
+                name: 'Meta',
+                logoUrl: '',
+                industry: 'Social Media',
+                foundedYear: 2004,
+                headquarters: 'Menlo Park, CA',
+                employeeCount: '67,000+',
+                jobPostsCount: 25, totalApplicants: 18000, salaryPackage: '22 - 45 LPA', experienceLevel: 'Experienced', hiringRoles: 'Frontend Engineer, VR Engineer, Data Engineer, Production Engineer, Research Scientist',
+                requiredSkills: 'React, GraphQL, Python, C++, Hack/PHP, Distributed Systems, Machine Learning, PyTorch',
+                eligibility: 'B.Tech / B.E / MS / PhD in Computer Science or related STEM fields',
+                hiringRounds: 'Recruiter Screen -> Technical Screening -> On-site (2 Coding, 1 System Design, 1 Behavioral)',
+                jobLocation: 'Bangalore, Hyderabad, Remote',
+                applicationLink: 'https://www.metacareers.com',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Focusing on open-source AI models (Llama series), Reels recommendation algorithms, and VR infrastructure.',
+                companyDescription: 'Social technology company building products for virtual and augmented reality and social networking.'
+            },
+            {
+                id: 9,
+                name: 'Netflix',
+                logoUrl: '',
+                industry: 'Entertainment',
+                foundedYear: 1997,
+                headquarters: 'Los Gatos, CA',
+                employeeCount: '13,000+',
+                jobPostsCount: 15, totalApplicants: 12000, salaryPackage: '25 - 50 LPA', experienceLevel: 'Experienced', hiringRoles: 'Senior Software Engineer, Core UI Developer, Streaming Systems Engineer, Data Architect',
+                requiredSkills: 'Java, Spring Cloud, React, Node.js, Microservices, AWS, Chaos Engineering, Distributed Storage',
+                eligibility: 'Experienced professionals (3+ years) with strong track record in high-scale distributed systems',
+                hiringRounds: 'Recruiter Screen -> Technical Screen -> 2 Technical Rounds -> Culture & Executive Round',
+                jobLocation: 'Mumbai, Remote',
+                applicationLink: 'https://jobs.netflix.com',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Hiring senior specialists for video encoding optimization, global content delivery networks, and personalized AI recommendations.',
+                companyDescription: 'Global entertainment streaming platform and production company serving hundreds of millions of subscribers.'
+            },
+            {
+                id: 10,
+                name: 'Salesforce',
+                logoUrl: '',
+                industry: 'Cloud/SaaS',
+                foundedYear: 1999,
+                headquarters: 'San Francisco, CA',
+                employeeCount: '79,000+',
+                jobPostsCount: 35, totalApplicants: 25000, salaryPackage: '14 - 28 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'MTS Software Engineer, Cloud Consultant, Platform Developer, Solution Architect',
+                requiredSkills: 'Java, Apex, Lightning Web Components, React, SQL, Cloud Architecture, Microservices',
+                eligibility: 'B.Tech / B.E / M.Tech in CS/IT (70%+ or 7.0 CGPA)',
+                hiringRounds: 'HackerRank Assessment -> Technical Interview 1 -> Technical Interview 2 -> Managerial / HR Round',
+                jobLocation: 'Hyderabad, Bangalore, Remote',
+                applicationLink: 'https://www.salesforce.com/in/company/careers',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Expanding Einstein AI enterprise integration and Salesforce Data Cloud data engineering teams.',
+                companyDescription: 'Cloud CRM platform and enterprise software leader helping businesses connect with customers.'
+            },
+            {
+                id: 11,
+                name: 'Adobe',
+                logoUrl: '',
+                industry: 'Software',
+                foundedYear: 1982,
+                headquarters: 'San Jose, CA',
+                employeeCount: '29,000+',
+                jobPostsCount: 28, totalApplicants: 20000, salaryPackage: '15 - 30 LPA', experienceLevel: 'Fresher / Exp', hiringRoles: 'Software Development Engineer, UI/UX Technologist, Machine Learning Engineer, Cloud Engineer',
+                requiredSkills: 'C++, Java, JavaScript, React, Python, Computer Vision, Generative AI (Firefly), AWS',
+                eligibility: 'B.Tech / B.E / M.Tech in CS/IT/ECE (70%+ or 7.0 CGPA)',
+                hiringRounds: 'Online Coding Test -> Technical Interview 1 -> Technical Interview 2 -> VP / HR Round',
+                jobLocation: 'Noida, Bangalore, Remote',
+                applicationLink: 'https://www.adobe.com/careers.html',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Rapid growth in Adobe Firefly generative AI features and Document Cloud enterprise collaboration suites.',
+                companyDescription: 'Software company specializing in creative tools, digital media, and document solutions.'
+            },
+            {
+                id: 12,
+                name: 'Wipro',
+                logoUrl: '',
+                industry: 'IT Services',
+                foundedYear: 1945,
+                headquarters: 'Bangalore, India',
+                employeeCount: '250,000+',
+                jobPostsCount: 85, totalApplicants: 68000, salaryPackage: '4 - 8 LPA', experienceLevel: 'Fresher', hiringRoles: 'Project Engineer, Elite Candidate, Cloud Infrastructure Specialist',
+                requiredSkills: 'Java, Python, SQL, C++, Web Technologies, Testing Fundamentals, Cloud Basics',
+                eligibility: 'B.Tech / B.E / M.Tech / MCA across engineering branches (60%+ in 10th, 12th and graduation)',
+                hiringRounds: 'Wipro NLTH Assessment -> Technical Interview -> HR Round',
+                jobLocation: 'Bangalore, Hyderabad, Pune, Chennai, Kolkata, Mumbai',
+                applicationLink: 'https://careers.wipro.com',
+                lastDate: 'Rolling Recruitment',
+                hiringTrends: 'Consistent hiring for Turbo and Elite campus programs with emphasis on full-stack and automation skills.',
+                companyDescription: 'Global IT services and business process outsourcing company delivering innovative technology solutions.'
+            }
         ];
     }
-    if (url.includes('/api/jobs/stats')) {
+    if (url.includes('/jobs/stats') || url.includes('/stats')) {
         return { totalRecruiters: 35, activeJobs: 105, applicantsCount: 520, averagePackage: "14.8 LPA" };
     }
-    if (url.includes('/api/domains') && !url.includes('/progress')) {
+    if (url.includes('/domains') && !url.includes('/progress') && !url.includes('/roadmap')) {
         return [
             { id: 1, name: 'Full Stack Web Development', description: 'Master React, Node.js, Spring Boot, and Cloud deployments.', totalCourses: 24, difficulty: 'INTERMEDIATE', icon: 'Globe' },
             { id: 2, name: 'Data Science & AI', description: 'Python, Pandas, Machine Learning, Deep Learning & LLMs.', totalCourses: 18, difficulty: 'ADVANCED', icon: 'Cpu' },
@@ -38,14 +266,14 @@ const getFallbackDataForUrl = (url = '') => {
             { id: 5, name: 'Core CS & DSA Mastery', description: 'Data Structures, Algorithms, Dynamic Programming, and Graph Theory.', totalCourses: 34, difficulty: 'ADVANCED', icon: 'Code' }
         ];
     }
-    if (url.includes('/api/domains/progress') || url.includes('/progress')) {
+    if (url.includes('/progress')) {
         return [
             { domainId: 1, completedTopics: 12, totalTopics: 24, progressPercentage: 50 },
             { domainId: 2, completedTopics: 6, totalTopics: 18, progressPercentage: 33 },
             { domainId: 5, completedTopics: 17, totalTopics: 34, progressPercentage: 50 }
         ];
     }
-    if (url.includes('/api/coding-problems') || url.includes('/coding')) {
+    if (url.includes('/coding-problems') || url.includes('/coding')) {
         return [
             { id: 1, title: 'Two Sum', difficulty: 'EASY', topicTags: 'Array, Hash Table', description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.' },
             { id: 2, title: 'Reverse Linked List', difficulty: 'EASY', topicTags: 'Linked List, Recursion', description: 'Given the head of a singly linked list, reverse the list, and return the reversed list.' },
@@ -57,7 +285,7 @@ const getFallbackDataForUrl = (url = '') => {
             { id: 8, title: 'Word Search', difficulty: 'MEDIUM', topicTags: 'Array, Backtracking, Matrix', description: 'Given an m x n grid of characters board and a string word, return true if word exists in the grid.' }
         ];
     }
-    if (url.includes('/api/mock-tests/leaderboard') || url.includes('/leaderboard')) {
+    if (url.includes('/leaderboard')) {
         return [
             { rank: 1, username: 'Alex Chen', score: 98, testTitle: 'DSA & Coding Mastery' },
             { rank: 2, username: 'Priya Sharma', score: 96, testTitle: 'Full Stack Technical Assessment' },
@@ -66,7 +294,7 @@ const getFallbackDataForUrl = (url = '') => {
             { rank: 5, username: 'Demo Visitor', score: 90, testTitle: 'DSA & Coding Mastery' }
         ];
     }
-    if (url.includes('/api/mock-tests') || url.includes('/interviews') || url.includes('/assessments')) {
+    if (url.includes('/mock-tests') || url.includes('/interviews') || url.includes('/assessments')) {
         return [
             { id: 1, title: 'Full Stack Technical Assessment', durationMinutes: 45, totalQuestions: 30, difficulty: 'MEDIUM', category: 'Web Development', description: 'Test your knowledge on React, Node.js, REST APIs, and Database schema design.' },
             { id: 2, title: 'DSA & Coding Mastery', durationMinutes: 60, totalQuestions: 25, difficulty: 'HARD', category: 'Data Structures', description: 'Advanced algorithmic assessment covering Trees, Graphs, Dynamic Programming, and Tries.' },
@@ -74,20 +302,20 @@ const getFallbackDataForUrl = (url = '') => {
             { id: 4, title: 'System Design & Scalability', durationMinutes: 45, totalQuestions: 15, difficulty: 'HARD', category: 'Architecture', description: 'High-level architecture test focusing on load balancers, sharding, caching, and CAP theorem.' }
         ];
     }
-    if (url.includes('/api/resumes')) {
+    if (url.includes('/resumes')) {
         return [
             { id: '1', title: 'Full Stack Developer Resume', lastUpdated: 'Today', score: 92, skills: ['React', 'Node.js', 'Spring Boot', 'MongoDB', 'Docker', 'AWS'] },
             { id: '2', title: 'Data Engineer Resume', lastUpdated: '3 days ago', score: 85, skills: ['Python', 'SQL', 'Spark', 'Airflow', 'BigQuery'] }
         ];
     }
-    if (url.includes('/api/jobs/applications')) {
+    if (url.includes('/jobs/applications')) {
         return [
             { id: 101, companyName: 'Google', roleTitle: 'Software Engineer III', status: 'INTERVIEWING', appliedDate: '2 days ago', code: 'GOOG-SE3' },
             { id: 102, companyName: 'Microsoft', roleTitle: 'Cloud Solutions Architect', status: 'SHORTLISTED', appliedDate: '5 days ago', code: 'MSFT-CSA' },
             { id: 103, companyName: 'Amazon', roleTitle: 'SDE II (Core Technologies)', status: 'APPLIED', appliedDate: '1 week ago', code: 'AMZN-SDE2' }
         ];
     }
-    if (url.includes('/api/ai/recommendations')) {
+    if (url.includes('/ai/recommendations')) {
         return [
             { id: 1, title: 'Master Dynamic Programming Patterns', type: 'course', priority: 'HIGH', reason: 'Based on recent coding assessment results' },
             { id: 2, title: 'System Design: Distributed Caching', type: 'interview', priority: 'HIGH', reason: 'High demand in top Tier-1 tech interviews' },
@@ -105,7 +333,20 @@ const getFallbackDataForUrl = (url = '') => {
 };
 
 axios.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        const config = response.config || {};
+        const method = (config.method || 'get').toLowerCase();
+        const url = config.url || '';
+
+        // If a GET request returns an empty array [] or empty response from the backend (e.g. empty database on Render), auto-populate with our rich fallback data!
+        if (method === 'get' && response.data && Array.isArray(response.data) && response.data.length === 0) {
+            const fallback = getFallbackDataForUrl(url);
+            if (Array.isArray(fallback) && fallback.length > 0) {
+                response.data = fallback;
+            }
+        }
+        return response;
+    },
     async (error) => {
         const config = error.config || {};
         const method = (config.method || 'get').toLowerCase();
@@ -124,7 +365,7 @@ axios.interceptors.response.use(
 
                     if (publicUrl !== url) {
                         const publicRes = await axios.get(publicUrl, { timeout: 8000 });
-                        if (publicRes && publicRes.data) {
+                        if (publicRes && publicRes.data && (!Array.isArray(publicRes.data) || publicRes.data.length > 0)) {
                             return publicRes;
                         }
                     }

@@ -331,22 +331,26 @@ const Companies = () => {
 
     // Filter and Sort logic
     const filteredCompanies = companies.filter(c => {
-        const matchSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            c.hiringRoles.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            c.requiredSkills.toLowerCase().includes(searchQuery.toLowerCase());
+        const query = (searchQuery || '').toLowerCase();
+        const matchSearch = !query || 
+            (c.name || '').toLowerCase().includes(query) ||
+            (c.hiringRoles || '').toLowerCase().includes(query) ||
+            (c.requiredSkills || '').toLowerCase().includes(query) ||
+            (c.companyDescription || '').toLowerCase().includes(query) ||
+            (c.industry || '').toLowerCase().includes(query);
         
-        const matchIndustry = selectedIndustry === 'All' || c.industry === selectedIndustry;
+        const matchIndustry = selectedIndustry === 'All' || (c.industry || 'Technology') === selectedIndustry;
         
         return matchSearch && matchIndustry;
     });
 
     const sortedCompanies = [...filteredCompanies].sort((a, b) => {
         if (sortBy === 'name') {
-            return a.name.localeCompare(b.name);
+            return (a.name || '').localeCompare(b.name || '');
         }
         if (sortBy === 'salary') {
             const getVal = (str) => {
-                const match = str.match(/(\d+)/);
+                const match = (str || '').match(/(\d+)/);
                 return match ? parseInt(match[0], 10) : 0;
             };
             return getVal(b.salaryPackage) - getVal(a.salaryPackage);
@@ -376,7 +380,7 @@ const Companies = () => {
                     setImgSrc(company.logoUrl);
                 }
             } else {
-                const domain = `${company.name.toLowerCase().replace(/\s+/g, '')}.com`;
+                const domain = `${(company.name || 'company').toLowerCase().replace(/\s+/g, '')}.com`;
                 setImgSrc(`https://logos.hunter.io/${domain}`);
             }
         }, [company]);
@@ -390,7 +394,7 @@ const Companies = () => {
                 } else if (company.logoUrl && company.logoUrl.includes('logo.clearbit.com')) {
                     domain = company.logoUrl.replace('https://logo.clearbit.com/', '');
                 } else {
-                    domain = `${company.name.toLowerCase().replace(/\s+/g, '')}.com`;
+                    domain = `${(company.name || 'company').toLowerCase().replace(/\s+/g, '')}.com`;
                 }
                 setImgSrc(`https://www.google.com/s2/favicons?domain=${domain}&sz=128`);
                 setFallbackLevel(1);
@@ -409,12 +413,12 @@ const Companies = () => {
             'bg-rose-500 text-white font-extrabold shadow-md shadow-rose-500/10',
             'bg-purple-500 text-white font-extrabold shadow-md shadow-purple-500/10'
         ];
-        const colorClass = colors[company.name.length % colors.length];
+        const colorClass = colors[(company.name || 'C').length % colors.length];
 
         if (fallbackLevel >= 2 || !imgSrc) {
             return (
                 <div className={`${className} shrink-0 rounded-xl ${colorClass} flex items-center justify-center font-black text-xl select-none border border-slate-200/50 dark:border-slate-800`}>
-                    {company.name.charAt(0)}
+                    {(company.name || 'C').charAt(0)}
                 </div>
             );
         }
