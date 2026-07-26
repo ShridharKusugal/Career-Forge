@@ -94,10 +94,7 @@ const Footer = () => {
                         <h3 className="text-gray-400 font-bold uppercase tracking-wider text-[11px] mb-2.5">Mail Us:</h3>
                         <p className="text-gray-300 leading-relaxed font-semibold text-[11px]">
                             CareerForge Technologies Private Limited,<br />
-                            Buildings Alyssa, Begonia &<br />
-                            Clove Embassy Tech Village,<br />
-                            Outer Ring Road, Devarabeesanahalli Village,<br />
-                            Bengaluru, 560103,<br />
+                            Hubli, 580024,<br />
                             Karnataka, India
                         </p>
                     </div>
@@ -127,10 +124,7 @@ const Footer = () => {
                     <h3 className="text-gray-400 font-bold uppercase tracking-wider text-[11px] mb-2.5">Registered Office Address:</h3>
                     <p className="text-gray-300 leading-relaxed font-semibold text-[11px]">
                         CareerForge Technologies Private Limited,<br />
-                        Buildings Alyssa, Begonia &<br />
-                        Clove Embassy Tech Village,<br />
-                        Outer Ring Road, Devarabeesanahalli Village,<br />
-                        Bengaluru, 560103,<br />
+                        Hubli, 580024,<br />
                         Karnataka, India<br />
                         CIN : U51109KA2012PTC066107<br />
                         Telephone: <a href="tel:044-45614700" className="text-blue-400 hover:underline">044-45614700</a> / <a href="tel:044-67415800" className="text-blue-400 hover:underline">044-67415800</a>
@@ -163,9 +157,14 @@ const Footer = () => {
                         </a>
                     </div>
 
-                    {/* Copyright */}
-                    <div className="text-gray-300 font-semibold text-[11px]">
-                        © 2007-2026 CareerForge.com
+                    {/* Copyright & Developer */}
+                    <div className="text-center md:text-left space-y-1">
+                        <div className="text-gray-300 font-semibold text-[11px]">
+                            © 2007-2026 CareerForge.com
+                        </div>
+                        <div className="text-white font-bold text-xs sm:text-sm tracking-wide">
+                            Developed BY  Shridhar..!
+                        </div>
                     </div>
 
                     {/* Payment / Trusted Badges */}
