@@ -250,14 +250,19 @@ const Login = () => {
     setError("");
     setLoading(true);
     try {
-      await login(usernameOrEmail, password);
-      navigate("/");
+      const result = await login(usernameOrEmail, password);
+      if (result.success) {
+        navigate("/");
+      } else {
+        setError(result.message || "Invalid credentials. Please try again.");
+      }
     } catch (err) {
-      setError(err.response?.data || "Invalid credentials. Please try again.");
+      setError(err.response?.data?.message || "Invalid credentials. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
 
   const features = [
     { icon: Zap, label: "AI-Powered Interview Prep" },
